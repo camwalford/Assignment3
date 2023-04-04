@@ -1,0 +1,6 @@
+V*output*.txt
+/times/times*.txt
+V?
+inputB1.txt
+inputB2.txt
+expected_outputB.txt
