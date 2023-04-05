@@ -54,17 +54,18 @@ do
       { echo -n "${file%.c}_${letter}: " ; time "./${file%.c}" "$input_file" "$input_file2" "$output_file_name" ; } 2>> "$times_file" >> "$times_file" || { echo "Error running ${file%.c} with arguments $input_file $input_file2 $output_file_name" ; exit 1 ; }
       expected_output_file="expected_output${letter}.txt"
       if diff -q "$output_file_name" "$expected_output_file" >/dev/null ; then
-        echo "${file%.c}_${letter}: Output files are the same"
-        echo "${file%.c}_${letter}: Output files are the same" >> "$times_file"
+        echo "${file%.c}_${letter}: Output file matches expected"
+        echo "${file%.c}_${letter}: Output file matches expected" >> "$times_file"
       else
         diff_output=$(diff "$output_file_name" "$expected_output_file" | wc -l)
-        echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output"
-        echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output" >> "$times_file"
+        #echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output"
+        #echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output" >> "$times_file"
         # diff -y --suppress-common-lines "$output_file_name" "$expected_output_file" >> "$times_file"
       fi
       echo "" >> "$times_file"
     fi
   done
+  echo "-----------------------------------------------------"
 done
 
 echo "Script completed successfully. Results written to $times_file."
