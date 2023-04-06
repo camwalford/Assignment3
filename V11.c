@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <xmmintrin.h>
 
-#define TABLE_SIZE 1000003
-#define INITIAL_BUCKET_CAPACITY 1000
+#define TABLE_SIZE 10007
+#define INITIAL_BUCKET_CAPACITY 100
 
 typedef struct Node {
     int data;
@@ -47,11 +46,18 @@ Node *findNode(Bucket *bucket, int data) {
     return NULL;
 }
 
+int compareNodes(const Node *a, const Node *b) {
+    return a->data - b->data;
+}
 
-void insertOrUpdateNode(Bucket*nodes[], int data) {
+void insertOrUpdateNode(Bucket *hashmap[], int data) {
     unsigned int index = hash(data);
-    Bucket *bucket = nodes[index];
-    size_t left = 0, right = bucket->size, mid;
+    Bucket *bucket = hashmap[index];
+    Node key = { .data = data };
+
+    size_t left = 0;
+    size_t right = bucket->size;
+    size_t mid;
 
     while (left < right) {
         mid = left + (right - left) / 2;
@@ -81,16 +87,17 @@ void insertOrUpdateNode(Bucket*nodes[], int data) {
     bucket->size++;
 }
 
-void freeHashMap(Bucket *nodes[]) {
+void freeHashMap(Bucket *hashmap[]) {
     for (int i = 0; i < TABLE_SIZE; i++) {
-    free(nodes[i]->nodes);
-    free(nodes[i]);
+        free(hashmap[i]->nodes);
+        free(hashmap[i]);
     }
 }
 
-void writeOutput(Bucket *nodes[], FILE *output) {
+void writeOutput(Bucket *hashmap[], FILE *output) {
     for (int i = 0; i < TABLE_SIZE; i++) {
-        Bucket *bucket = nodes[i];
+        Bucket *bucket = hashmap[i];
+
         for (size_t j = 0; j < bucket->size; j++) {
             if (bucket->nodes[j].count % 2 == 1) {
                 fprintf(output, "%d\n", bucket->nodes[j].data);
@@ -101,9 +108,10 @@ void writeOutput(Bucket *nodes[], FILE *output) {
 
 int main(int argc, char *argv[]) {
     if (argc != 4) {
-    printf("COMP2510ERROR: Usage: %s <input file1> <input file2> <output file>\n", argv[0]);
-    return 1;
+        printf("COMP2510ERROR: Usage: %s <input file1> <input file2> <output file>\n", argv[0]);
+        return 1;
     }
+
     FILE *input1 = fopen(argv[1], "r");
     FILE *input2 = fopen(argv[2], "r");
     FILE *output = fopen(argv[3], "w");
