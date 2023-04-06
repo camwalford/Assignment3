@@ -57,8 +57,10 @@ do
         echo "${file%.c}_${letter}: Output file matches expected"
         echo "${file%.c}_${letter}: Output file matches expected" >> "$times_file"
       else
-        diff_output=$(diff "$output_file_name" "$expected_output_file" | wc -l)
+        #diff_output=$(diff "$output_file_name" "$expected_output_file" | wc -l)
         #echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output"
+        echo "${file%.c}_${letter}: Output files are different"
+        echo "${file%.c}_${letter}: Output files are different" >> "$times_file"
         #echo "${file%.c}_${letter}: Output files are different, Number of different lines: $diff_output" >> "$times_file"
         # diff -y --suppress-common-lines "$output_file_name" "$expected_output_file" >> "$times_file"
       fi

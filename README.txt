@@ -1,10 +1,13 @@
-The C assignment wants us to make a binary tree using two input files of integers.
+The C assignment wants us to make a binary tree using two input files of integers of up to 10,000,000,000.
 The first input creates the tree with no deletions. 
 The second input file will cause a deletion if that data already exists in the tree, otherwise a node will be added. 
+There can be duplicate values in the first input, but those values won't be in the second input
 The tree must use the in-order predecessor (largest in the left subtree) to replace nodes that are deleted.
 The result of a pre-order traversal of the tree will be printed to an output file.
 The data structure doesn't have to be a tree the output just has to be the same as if it were one.
 The values in the input and output files won't be pre-sorted.
+The run command will be 
+>> ./<name of executable> <input file1> <input file 2> <outputfile>
 **The goal is speed, so we can use as much memory as we see fit.
 
 The input size will be 10,000,000,000 integers for input1 AND input2.
@@ -41,3 +44,26 @@ Name expected output files: expected_output[A-Z].txt
 
 V1.c can be used create the expected output for the input files. I have used it to create the current ones and believe it is correct.
 
+
+
+There are several methods that can be used to optimize the code for speed without changing the output. Here are some suggestions:
+
+Use iterative methods instead of recursive ones:
+Recursion can be slow and consume more memory due to the function call stack. You can replace the recursive functions with iterative ones using loops and data structures such as a stack.
+
+Improve memory allocation:
+The current code uses calloc to allocate memory for each new node. This can be optimized by using a memory pool or a custom allocator. A memory pool allocates a large chunk of memory at once, and then you can use it to store new nodes as they are created. This can reduce the overhead of memory allocation calls and deallocations.
+
+Optimize the tree structure:
+The tree structure in the code is an unbalanced binary search tree. You can use a self-balancing binary search tree, such as an AVL tree or a Red-Black tree, to keep the tree balanced. This will improve the time complexity of insertions and deletions from O(n) to O(log n), where n is the number of nodes.
+
+Read input files and process them simultaneously:
+Instead of reading input files sequentially, read and process them simultaneously. This can be done using multi-threading, where one thread reads and processes the first file while another reads and processes the second file. This can speed up the overall processing time.
+
+Use compiler optimizations:
+Use compiler flags to optimize the code. For example, in GCC, you can use the -O3 flag to enable the highest level of optimization.
+
+Minimize the use of standard I/O functions:
+Standard I/O functions like fscanf and fprintf can be slow. Instead, use lower-level I/O functions like read and write, or read the entire file into a buffer and process it in memory.
+
+Please note that each optimization should be tested for correctness and performance improvements, as different optimizations may have different effects on different systems or inputs.
