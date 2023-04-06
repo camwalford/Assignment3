@@ -34,7 +34,7 @@ fi
 for file in $c_files
 do
   echo "Compiling $file..."
-  gcc -o "${file%.c}" "$file" >> "$times_file" 2>&1 || { echo "Error compiling $file" ; exit 1 ; }
+  gcc -O3 -march=native -flto -funroll-loops -o "${file%.c}" "$file" >> "$times_file" 2>&1 || { echo "Error compiling $file" ; exit 1 ; }
 done
 
 # Run each compiled file with the specified arguments, log the times, and diff the output files
