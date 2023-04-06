@@ -91,7 +91,12 @@ int main(int argc, char *argv[]) {
     }
 
     preOrderTraversalAndFree(root, output);
-
+    
+    if (ferror(output)) {
+        printf("COMP2510ERROR: Problem writing to output file\n");
+        exit(1);
+    }
+    
     fclose(input1);
     fclose(input2);
     fclose(output);
